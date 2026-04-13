@@ -2,15 +2,19 @@ FROM node:20
 
 WORKDIR /app
 
-# Clonar Evolution API
 RUN apt-get update && apt-get install -y git
+
+# Clonar repo
 RUN git clone https://github.com/EvolutionAPI/evolution-api.git .
 
-# Instalar dependências
+# Instalar deps
 RUN npm install
 
-# Build (se necessário)
-RUN npm run build || true
+# 🔥 AQUI É A CORREÇÃO
+RUN npx prisma generate
+
+# (opcional mas recomendado)
+RUN npx prisma db push || true
 
 EXPOSE 8080
 
