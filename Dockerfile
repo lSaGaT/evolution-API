@@ -10,11 +10,13 @@ RUN git clone https://github.com/EvolutionAPI/evolution-api.git .
 # Instalar deps
 RUN npm install
 
-# 🔥 AQUI É A CORREÇÃO
-RUN npx prisma generate
+# 🔥 Corrigido: apontando schema
+RUN npx prisma generate --schema=./src/prisma/schema.prisma || npx prisma generate --schema=./prisma/schema.prisma
 
-# (opcional mas recomendado)
+# (opcional)
 RUN npx prisma db push || true
+
+ENV PORT=8080
 
 EXPOSE 8080
 
