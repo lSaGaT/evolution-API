@@ -11,10 +11,9 @@ RUN npx prisma generate --schema ./prisma/postgresql-schema.prisma
 
 RUN npm run build 2>/dev/null || true
 
-# Cria o script de entrada
 RUN echo '#!/bin/sh' > /entrypoint.sh && \
-    echo 'npx prisma migrate deploy --schema ./prisma/postgresql-schema.prisma' >> /entrypoint.sh && \
-    echo 'exec npm run start:prod' >> /entrypoint.sh && \
+    echo 'npx prisma migrate deploy --schema ./prisma/postgresql-schema.prisma || true' >> /entrypoint.sh && \
+    echo 'exec node dist/main' >> /entrypoint.sh && \
     chmod +x /entrypoint.sh
 
 ENV PORT=8080
